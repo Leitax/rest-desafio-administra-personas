@@ -1,9 +1,6 @@
 pipeline {
-  agent { label 'linux' }
-  options {
-    buildDiscarder(logRotator(numToKeepStr: '5'))
-  }
-  stages {
+  agent any
+ stages {
     stage('Build') {
       steps {
         sh 'docker build -t contenedor-sb:latest .'
