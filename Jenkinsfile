@@ -1,9 +1,15 @@
 pipeline {
   agent any
+      tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "MAVEN_HOME"
+    }
  stages {
     stage('Build') {
-      steps {
-        sh 'docker build -t contenedor-sb:latest .'
+        git 'https://github.com/Leitax/rest-desafio-administra-personas'
+
+                // Run Maven on a Unix agent.
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
       }
     }
     stage('Scan') {
