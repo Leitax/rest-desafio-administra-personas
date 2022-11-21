@@ -9,8 +9,7 @@ pipeline {
       steps {
         git 'https://github.com/Leitax/rest-desafio-administra-personas.git'
 
-                // Run Maven on a Unix agent.
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+                bat "mvn -Dmaven.test.failure.ignore=true clean package"
       }
     }
     stage('Scan') {
