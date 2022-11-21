@@ -6,8 +6,7 @@ pipeline {
         sh 'docker build -t contenedor-sb:latest .'
       }
     }
-    ...
-        stage('Scan') {
+    stage('Scan') {
             steps {
                 // Install trivy
                 sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.18.3'
