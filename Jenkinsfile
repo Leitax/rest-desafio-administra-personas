@@ -6,18 +6,18 @@ pipeline {
       steps {
         git 'https://github.com/Leitax/rest-desafio-administra-personas.git'
 
-                bat "mvn -Dmaven.test.failure.ignore=true clean package"
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
       }
     }
     stage('Scan') {
             steps {
                 // Install trivy
-                bat 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh'
-                bat 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
+                sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh'
+                sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
 
                 // Scan all vuln levels
-                bat 'mkdir -p reports'
-                bat 'trivy filesystem --ignore-unfixed --vuln-type os,library --format template --template "@html.tpl" -o reports/nodjs-scan.html ./nodejs'
+                sh 'mkdir -p reports'
+                sh 'trivy filesystem --ignore-unfixed --vuln-type os,library --format template --template "@html.tpl" -o reports/nodjs-scan.html ./nodejs'
                 publishHTML target : [
                     allowMissing: true,
                     alwaysLinkToLastBuild: true,
@@ -29,7 +29,7 @@ pipeline {
                 ]
 
                 // Scan again and fail on CRITICAL vulns
-                bat 'trivy filesystem --ignore-unfixed --vuln-type os,library --exit-code 1 --severity CRITICAL ./nodejs'
+                sh 'trivy filesystem --ignore-unfixed --vuln-type os,library --exit-code 1 --severity CRITICAL ./nodejs'
 
             }
 
