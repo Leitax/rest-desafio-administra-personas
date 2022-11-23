@@ -5,9 +5,7 @@ pipeline {
 
     stage('Scan') {
             steps {
-                // Install trivy
-                sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh'
-                sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
+                
 
                 // Scan all vuln levels
                 sh 'mkdir -p reports'
