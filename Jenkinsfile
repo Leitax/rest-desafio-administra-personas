@@ -2,13 +2,7 @@ pipeline {
   agent any
 
  stages {
-    stage('Build') {
-      steps {
-        git 'https://github.com/Leitax/rest-desafio-administra-personas.git'
 
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
-      }
-    }
     stage('Scan') {
             steps {
                 // Install trivy
