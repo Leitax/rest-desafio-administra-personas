@@ -5,13 +5,13 @@ pipeline {
     stage('Build Artifact - Maven') {
       steps {
         bat "mvn clean package -DskipTests=true"
-        archive 'target/*.jar'
+        archiveArtifacts 'target/*.jar'
       }
     }
     stage('Scan') {
             steps {
                 
-          bat "bash trivy-docker-image-scan.bat"
+          bat "bash trivy-docker-image-scan.sh"
             }
 
   }
