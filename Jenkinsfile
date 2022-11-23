@@ -6,18 +6,18 @@ pipeline {
       steps {
         git 'https://github.com/Leitax/rest-desafio-administra-personas.git'
 
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+                bat "mvn -Dmaven.test.failure.ignore=true clean package"
       }
     }
     stage('Scan') {
             steps {
                 // Install trivy
-                sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh'
-                sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
+                bat 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh'
+                bat 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
 
                 // Scan all vuln levels
-                sh 'mkdir -p reports'
-                sh 'trivy filesystem --ignore-unfixed --vuln-type os,library --format template --template "@html.tpl" -o reports/nodjs-scan.html ./nodejs'
+                bat 'mkdir -p reports'
+                bat 'trivy filesystem --ignore-unfixed --vuln-type os,library --format template --template "@html.tpl" -o reports/nodjs-scan.html ./nodejs'
                 publishHTML target : [
                     allowMissing: true,
                     alwaysLinkToLastBuild: true,
