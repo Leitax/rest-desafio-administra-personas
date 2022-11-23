@@ -2,12 +2,7 @@ pipeline {
   agent any
 
  stages {
-    stage('Build Artifact - Maven') {
-      steps {
-        bat "mvn clean package -DskipTests=true"
-        archiveArtifacts 'target/*.jar'
-      }
-    }
+  
     stage('Scan') {
             steps {
                 
