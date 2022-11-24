@@ -16,7 +16,7 @@ pipeline {
               sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy:0.34.0 image --exit-code 0 --severity HIGH sb-imagen"
 
 
-    # Trivy scan result processing
+    
     exit_code=$?
     echo "Exit Code : $exit_code"
             }
