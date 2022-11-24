@@ -10,17 +10,23 @@ pipeline {
       }
     }
   
-    stage('Scan') {
+    stage('Scan Vulnerabilidades') {
             steps {
-             sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy:0.34.0 --exit-code 1 image sb-imagen"
-              //sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy:0.34.0 image --exit-code 0 --severity HIGH sb-imagen"
+              parallel (
+                  secretos: {
+                    sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy:0.34.0 --exit-code 1 image --security-checks secret sb-imagen"
+                  },
+                
+                  Contenedor-Vuln: {
+                    sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy:0.34.0 --exit-code 1 image --security-checks vuln sb-imagen"
+                  },
 
+                  Mysql-Vuln: {
+                    sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy:0.34.0 --exit-code 1 image --security-checks vuln mysql"
+                  }
 
-    
-    
+              )
             }
-
+          }     
     }
-  }
 }
-
