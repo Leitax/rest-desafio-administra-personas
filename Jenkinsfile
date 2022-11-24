@@ -5,7 +5,7 @@ pipeline {
 
      stage('Build Artifact - Maven') {
       steps {
-        bat "mvn clean package -DskipTests=true"
+        sh "mvn clean package -DskipTests=true"
         archive 'target/*.jar'
       }
     }
@@ -13,7 +13,7 @@ pipeline {
     stage('Scan') {
             steps {
                   
-            bat "trivy image sboot-contenedor"
+            sh "bash trivy-docker-image-scan.sh"
             }
 
     }
