@@ -13,7 +13,7 @@ pipeline {
     stage('Scan') {
             steps {
                   
-            sh "bash trivy-docker-image-scan.sh"
+            sh "docker run -u root --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy:0.34.0 image sb-imagen"
             }
 
     }
