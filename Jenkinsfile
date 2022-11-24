@@ -18,7 +18,7 @@ pipeline {
 
     
     exit_code=$?
-    echo "Exit Code : $exit_code"
+    echo 'Exit Code: $exit_code'
             }
 
     }
