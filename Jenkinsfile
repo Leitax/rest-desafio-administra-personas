@@ -5,15 +5,19 @@ pipeline {
 
      stage('Build Artifact - Maven') {
       steps {
-        bat "mvn clean package -DskipTests=true"
+        sh "mvn clean package -DskipTests=true"
         archive 'target/*.jar'
       }
     }
   
     stage('Scan') {
             steps {
-                  
-            bat "trivy image sboot-contenedor"
+             sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy:0.34.0 image --exit-code 1 --severity CRITICAL sb-imagen"
+              sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy:0.34.0 image --exit-code 0 --severity HIGH sb-imagen"
+
+
+    
+    
             }
 
     }
