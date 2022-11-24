@@ -12,8 +12,13 @@ pipeline {
   
     stage('Scan') {
             steps {
-                  
-            sh "bash trivy-docker-image-scan.sh"
+             sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy:0.34.0 image --exit-code 1 --severity CRITICAL sb-imagen"
+              sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy:0.34.0 image --exit-code 0 --severity HIGH sb-imagen"
+
+
+    # Trivy scan result processing
+    exit_code=$?
+    echo "Exit Code : $exit_code"
             }
 
     }
