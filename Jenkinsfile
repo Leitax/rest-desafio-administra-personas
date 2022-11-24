@@ -11,9 +11,9 @@ pipeline {
     stage('Scan') {
             steps {
                 
-          bat "bash trivy-docker-image-scan.sh"
+          bat "trivy docker sboot-contenedor"
             }
 
+    }
   }
-}
 }
